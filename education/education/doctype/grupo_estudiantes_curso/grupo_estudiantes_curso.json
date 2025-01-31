@@ -1,0 +1,37 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-09-09 11:14:10.280113",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "grupo",
+  "column_break_yler"
+ ],
+ "fields": [
+  {
+   "fieldname": "grupo",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Grupo",
+   "options": "Student Group"
+  },
+  {
+   "fieldname": "column_break_yler",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-10-30 11:38:58.518171",
+ "modified_by": "Administrator",
+ "module": "Education",
+ "name": "Grupo Estudiantes Curso",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -1,0 +1,207 @@
+import frappe
+
+#################################################################################
+###################         SINCRONIZACIÓN DE CURSOS          ###################
+#################################################################################
+
+def sync_moodle_course(doc, method):
+    # Tratar el valor "No" en `virtual_class` como un campo vacío
+    if doc.virtual_class == "No":
+        doc.virtual_class = None
+
+    # Verificar si el curso tiene un código de Moodle y una instancia virtual válida
+    if doc.moodle_course_code and doc.virtual_class:
+        # Verificar si ya existe una entrada en `Moodle Course` para este curso
+        existing_moodle_course = frappe.db.exists("Moodle Course", {"course_code": doc.moodle_course_code})
+        
+        if existing_moodle_course:
+            # Actualizar la entrada existente
+            moodle_course_doc = frappe.get_doc("Moodle Course", existing_moodle_course)
+            moodle_course_doc.course_name = doc.course_name
+            moodle_course_doc.course_start_date = doc.start_date
+            moodle_course_doc.course_end_date = doc.end_date
+            moodle_course_doc.course_instance = doc.virtual_class  # Actualizar la instancia
+            moodle_course_doc.save()
+            frappe.db.commit()
+            print(f"Entrada en Moodle Course actualizada para {doc.course_name}")
+        else:
+            # Revisar si existe un curso de Moodle con un código diferente asociado a este `Course`
+            previous_moodle_course = frappe.get_all(
+                "Moodle Course", 
+                filters={"course_instance": doc.name}, 
+                fields=["name", "course_code"]
+            )
+            
+            if previous_moodle_course:
+                # Si encontramos un curso anterior, actualizamos su código al nuevo `moodle_course_code`
+                previous_moodle_course_doc = frappe.get_doc("Moodle Course", previous_moodle_course[0].name)
+                previous_moodle_course_doc.course_code = doc.moodle_course_code
+                previous_moodle_course_doc.course_name = doc.course_name
+                previous_moodle_course_doc.course_start_date = doc.start_date
+                previous_moodle_course_doc.course_end_date = doc.end_date
+                previous_moodle_course_doc.course_instance = doc.virtual_class
+                previous_moodle_course_doc.save()
+                frappe.db.commit()
+                print(f"El código de Moodle Course ha sido actualizado para {doc.course_name}")
+            else:
+                # Crear una nueva entrada si no existe un curso anterior ni uno con el nuevo código
+                new_moodle_course_doc = frappe.get_doc({
+                    "doctype": "Moodle Course",
+                    "course_name": doc.course_name,
+                    "course_code": doc.moodle_course_code,
+                    "course_start_date": doc.start_date,
+                    "course_end_date": doc.end_date,
+                    "course_instance": doc.virtual_class  # Asignar la instancia de Moodle
+                })
+                new_moodle_course_doc.insert()
+                frappe.db.commit()
+                print(f"Entrada creada en Moodle Course para {doc.course_name}")
+    else:
+        # Si el código de Moodle es eliminado o `virtual_class` es "No" o está vacío, borra la entrada en Moodle Course
+        delete_moodle_course_entry(doc, method)
+
+def delete_moodle_course_entry(doc, method):
+    # Verificar si hay una entrada en `Moodle Course` con el código de Moodle del curso
+    if doc.moodle_course_code:
+        existing_moodle_course = frappe.db.exists("Moodle Course", {"course_code": doc.moodle_course_code})
+        
+        if existing_moodle_course:
+            # Eliminar la entrada de `Moodle Course`
+            frappe.delete_doc("Moodle Course", existing_moodle_course)
+            frappe.db.commit()
+            print(f"Entrada eliminada en Moodle Course para el código {doc.moodle_course_code}")
+
+
+
+
+#################################################################################
+###################      SINCRONIZACIÓN DE ESTUDIANTES        ###################
+#################################################################################
+
+def sync_students_to_moodle_users(doc, method):
+    # Lista para almacenar los nuevos documentos de `Moodle User`
+    new_moodle_users = []
+
+    # Obtener todos los DNIs de los estudiantes en `custom_estudiantes`
+    student_ids = [entry.estudiante for entry in doc.custom_estudiantes if entry.estudiante]
+    if not student_ids:
+        return  # No hay estudiantes en la tabla `custom_estudiantes`
+
+    # Filtrar estudiantes habilitados en `Student`
+    enabled_students = frappe.get_all("Student", filters={"name": ["in", student_ids], "enabled": 1}, fields=["name", "first_name", "last_name", "dni", "student_mobile_number", "student_email_id", "date_of_birth"])
+
+    # Obtener los DNIs de `Moodle User` existentes para evitar duplicados
+    existing_dni = {user.user_dni for user in frappe.get_all("Moodle User", filters={"user_dni": ["in", [s.dni for s in enabled_students]]}, fields=["user_dni"])}
+
+    # Crear `Moodle User` solo para los estudiantes que no tienen usuario existente
+    for student_data in enabled_students:
+        if student_data.dni in existing_dni:
+            print(f"El usuario Moodle para el estudiante {student_data.first_name} {student_data.last_name} ya existe, omitiendo.")
+            continue
+
+        # Crear y añadir el nuevo `Moodle User` a la lista
+        new_moodle_user = frappe.get_doc({
+            "doctype": "Moodle User",
+            "user_name": student_data.first_name,
+            "user_surname": student_data.last_name,
+            "user_dni": student_data.dni,
+            "user_phone": student_data.student_mobile_number,
+            "user_email": student_data.student_email_id,
+            "user_birthdate": student_data.date_of_birth,
+            "user_role": "Student",
+            "user_id": student_data.dni  # Usar `dni` como ID de usuario
+        })
+        new_moodle_user.insert(ignore_permissions=True)
+        new_moodle_users.append(new_moodle_user)
+
+    # Confirmar todos los cambios en una sola transacción
+    frappe.db.commit()
+
+
+def sync_moodle_user_on_student_update(doc, method):
+    # Verificar si el estudiante está deshabilitado
+    if not doc.enabled:
+        # Si está deshabilitado, eliminar el `Moodle User` correspondiente, si existe
+        delete_moodle_user_on_student_deletion(doc, method)
+        return  # Salir de la función para no continuar con la actualización
+
+    # Si el estudiante está habilitado, proceder a sincronizar con `Moodle User`
+    moodle_user_id = frappe.db.exists("Moodle User", {"user_dni": doc.dni})
+    
+    if moodle_user_id:
+        # Obtener el documento `Moodle User`
+        moodle_user = frappe.get_doc("Moodle User", moodle_user_id)
+        
+        # Actualizar todos los campos necesarios en `Moodle User`
+        moodle_user.user_name = doc.first_name
+        moodle_user.user_surname = doc.last_name
+        moodle_user.user_phone = doc.student_mobile_number
+        moodle_user.user_email = doc.student_email_id
+        moodle_user.user_birthdate = doc.date_of_birth
+        moodle_user.user_id = doc.dni  # Mantener `dni` como ID de usuario
+
+        # Guardar y confirmar los cambios en `Moodle User`
+        moodle_user.save()
+        frappe.db.commit()
+
+
+def delete_moodle_user_on_student_deletion(doc, method):
+    # Verificar si existe un `Moodle User` con el DNI del estudiante
+    moodle_user_id = frappe.db.exists("Moodle User", {"user_dni": doc.dni})
+    
+    if moodle_user_id:
+        # Eliminar el documento `Moodle User`
+        frappe.delete_doc("Moodle User", moodle_user_id)
+        frappe.db.commit()
+
+
+
+
+#################################################################################
+###################      SINCRONIZACIÓN DE INSTRUCTORES       ###################
+#################################################################################
+
+def sync_instructors_to_moodle_users(doc, method):
+    # Lista para almacenar los nuevos documentos de `Moodle User`
+    new_moodle_users = []
+
+    # Obtener todos los IDs de los instructores en `custom_instructor`
+    instructor_ids = [entry.instructor for entry in doc.custom_instructor if entry.instructor]
+    if not instructor_ids:
+        return  # No hay instructores en la tabla `custom_instructor`
+
+    # Filtrar instructores habilitados y verificar el campo `employee`
+    enabled_instructors = frappe.get_all("Instructor", filters={"name": ["in", instructor_ids], "employee": ["!=", ""]}, fields=["name", "employee"])
+
+    if not enabled_instructors:
+        return  # No hay instructores con un empleado asociado
+
+    # Obtener los datos de los empleados asociados
+    employee_ids = [inst.employee for inst in enabled_instructors]
+    employee_data = frappe.get_all("Employee", filters={"name": ["in", employee_ids]}, fields=["name", "employee_name", "first_name", "last_name", "custom_dninie", "date_of_birth", "cell_number", "employee_email"])
+
+    # Mapeo de los datos del empleado para facilitar la referencia
+    employee_map = {emp.name: emp for emp in employee_data}
+
+    # Obtener los DNIs de `Moodle User` existentes para evitar duplicados
+    existing_dni = {user.user_dni for user in frappe.get_all("Moodle User", filters={"user_dni": ["in", [emp.custom_dninie for emp in employee_data]]}, fields=["user_dni"])}
+
+    # Crear `Moodle User` para cada instructor nuevo
+    for instructor in enabled_instructors:
+        employee = employee_map.get(instructor.employee)
+        if employee and employee.custom_dninie not in existing_dni:
+            moodle_user = frappe.get_doc({
+                "doctype": "Moodle User",
+                "user_name": employee.first_name,
+                "user_surname": employee.last_name,
+                "user_dni": employee.custom_dninie,
+                "user_birthdate": employee.date_of_birth,
+                "user_phone": employee.cell_number,
+                "user_email": employee.employee_email,
+                "user_id": employee.custom_dninie,
+                "user_role": "Teacher"
+            })
+            moodle_user.insert()
+            new_moodle_users.append(moodle_user)
+
+    frappe.db.commit()

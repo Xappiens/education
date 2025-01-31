@@ -1,0 +1,60 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:requisito",
+ "creation": "2024-07-18 15:14:25.464910",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "requisito",
+  "column_break_rhcl",
+  "descripcion"
+ ],
+ "fields": [
+  {
+   "fieldname": "requisito",
+   "fieldtype": "Data",
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Tipo de requisito",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "column_break_rhcl",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "descripcion",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Descripci\u00f3n del Requisito"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-10-09 11:46:45.359370",
+ "modified_by": "Administrator",
+ "module": "Education",
+ "name": "Tipo de Requisito",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

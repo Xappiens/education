@@ -1,0 +1,89 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:{centro}-{codigo}",
+ "creation": "2024-10-14 10:03:56.793424",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "nombre",
+  "m2",
+  "aforo",
+  "column_break_mvjb",
+  "centro",
+  "codigo",
+  "descripci\u00f3n_aula"
+ ],
+ "fields": [
+  {
+   "fieldname": "nombre",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Nombre",
+   "reqd": 1
+  },
+  {
+   "fieldname": "m2",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Metros Cuadrados",
+   "non_negative": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_mvjb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "centro",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Centro de Formacion",
+   "options": "Room",
+   "reqd": 1
+  },
+  {
+   "fieldname": "codigo",
+   "fieldtype": "Data",
+   "label": "C\u00f3digo/Nombre Aula"
+  },
+  {
+   "fieldname": "aforo",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Aforo",
+   "non_negative": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "descripci\u00f3n_aula",
+   "fieldtype": "Small Text",
+   "label": "Descripci\u00f3n Aula"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-12-02 09:55:34.026401",
+ "modified_by": "Administrator",
+ "module": "Education",
+ "name": "Aula",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

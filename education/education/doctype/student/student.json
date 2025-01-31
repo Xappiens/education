@@ -1,0 +1,508 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2015-09-07 13:00:55.938280",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_1",
+  "enabled",
+  "section_break_3",
+  "first_name",
+  "middle_name",
+  "last_name",
+  "dni",
+  "full_name",
+  "entity_type",
+  "column_break_4",
+  "naming_series",
+  "joining_date",
+  "user",
+  "student_applicant",
+  "image",
+  "entity_link",
+  "section_break_7",
+  "date_of_birth",
+  "gender",
+  "nationality",
+  "disability",
+  "blood_group",
+  "column_break_3",
+  "student_email_id",
+  "phone_number",
+  "student_mobile_number",
+  "n\u00ba_seguridad_social",
+  "estudios_finalizados",
+  "address_tab",
+  "section_break_22",
+  "address_line_1",
+  "address_line_2",
+  "postcode",
+  "municipio",
+  "column_break_20",
+  "city",
+  "state",
+  "country",
+  "company_tab",
+  "company",
+  "company_cif",
+  "company_niss",
+  "company_postcode",
+  "company_address",
+  "company_city",
+  "relations_tab",
+  "section_break_18",
+  "guardians",
+  "section_break_20",
+  "siblings",
+  "customer_details_tab",
+  "customer_details_section",
+  "customer",
+  "column_break_rgpi",
+  "customer_group",
+  "exit_tab",
+  "exit",
+  "date_of_leaving",
+  "leaving_certificate_number",
+  "column_break_31",
+  "reason_for_leaving",
+  "student_name",
+  "connections_tab"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_1",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled"
+  },
+  {
+   "fieldname": "section_break_3",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "first_name",
+   "fieldtype": "Data",
+   "in_global_search": 1,
+   "label": "First Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "middle_name",
+   "fieldtype": "Data",
+   "label": "Middle Name"
+  },
+  {
+   "fieldname": "last_name",
+   "fieldtype": "Data",
+   "in_global_search": 1,
+   "label": "Last Name"
+  },
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "User ID",
+   "options": "User"
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Naming Series",
+   "no_copy": 1,
+   "options": "EDU-STU-.YYYY.-",
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "student_email_id",
+   "fieldtype": "Data",
+   "in_global_search": 1,
+   "label": "Correo Electr\u00f3nico",
+   "reqd": 1
+  },
+  {
+   "fieldname": "student_mobile_number",
+   "fieldtype": "Data",
+   "in_global_search": 1,
+   "label": "Tel\u00e9fono M\u00f3vil",
+   "reqd": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "joining_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Joining Date"
+  },
+  {
+   "fieldname": "image",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "Image",
+   "width": "10"
+  },
+  {
+   "fieldname": "section_break_7",
+   "fieldtype": "Section Break",
+   "label": "Personal Details"
+  },
+  {
+   "fieldname": "date_of_birth",
+   "fieldtype": "Date",
+   "label": "Date of Birth"
+  },
+  {
+   "fieldname": "blood_group",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Blood Group",
+   "options": "\nA+\nA-\nB+\nB-\nO+\nO-\nAB+\nAB-"
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "gender",
+   "fieldtype": "Link",
+   "label": "Sexo",
+   "options": "Gender"
+  },
+  {
+   "fieldname": "nationality",
+   "fieldtype": "Link",
+   "label": "Nationality",
+   "options": "Country"
+  },
+  {
+   "fieldname": "student_applicant",
+   "fieldtype": "Link",
+   "label": "Student Applicant",
+   "options": "Student Applicant",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_22",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "address_line_1",
+   "fieldtype": "Data",
+   "label": "Address Line 1"
+  },
+  {
+   "fieldname": "address_line_2",
+   "fieldtype": "Data",
+   "label": "Address Line 2"
+  },
+  {
+   "fieldname": "column_break_20",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "city",
+   "fieldtype": "Data",
+   "label": "City"
+  },
+  {
+   "fieldname": "state",
+   "fieldtype": "Link",
+   "label": "State",
+   "options": "Provincias"
+  },
+  {
+   "fieldname": "country",
+   "fieldtype": "Link",
+   "label": "Country",
+   "options": "Country"
+  },
+  {
+   "fieldname": "section_break_18",
+   "fieldtype": "Section Break",
+   "label": "Guardian Details"
+  },
+  {
+   "fieldname": "guardians",
+   "fieldtype": "Table",
+   "label": "Guardians",
+   "options": "Student Guardian"
+  },
+  {
+   "fieldname": "section_break_20",
+   "fieldtype": "Section Break",
+   "label": "Sibling Details",
+   "options": "Country"
+  },
+  {
+   "fieldname": "siblings",
+   "fieldtype": "Table",
+   "label": "Siblings",
+   "options": "Student Sibling"
+  },
+  {
+   "fieldname": "exit",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "date_of_leaving",
+   "fieldtype": "Date",
+   "label": "Date of Leaving"
+  },
+  {
+   "fieldname": "leaving_certificate_number",
+   "fieldtype": "Data",
+   "label": "Leaving Certificate Number"
+  },
+  {
+   "fieldname": "column_break_31",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "reason_for_leaving",
+   "fieldtype": "Text",
+   "label": "Reason For Leaving"
+  },
+  {
+   "fieldname": "student_name",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Student Name"
+  },
+  {
+   "fieldname": "address_tab",
+   "fieldtype": "Tab Break",
+   "label": "Address"
+  },
+  {
+   "fieldname": "relations_tab",
+   "fieldtype": "Tab Break",
+   "hidden": 1,
+   "label": "Relations"
+  },
+  {
+   "fieldname": "exit_tab",
+   "fieldtype": "Tab Break",
+   "label": "Exit"
+  },
+  {
+   "fieldname": "connections_tab",
+   "fieldtype": "Tab Break",
+   "label": "Connections",
+   "show_dashboard": 1
+  },
+  {
+   "fieldname": "customer_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Customer Details"
+  },
+  {
+   "fieldname": "customer_details_section",
+   "fieldtype": "Section Break",
+   "label": "Customer Details"
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer",
+   "read_only": 1
+  },
+  {
+   "fieldname": "customer_group",
+   "fieldtype": "Link",
+   "label": "Customer Group",
+   "options": "Customer Group"
+  },
+  {
+   "fieldname": "column_break_rgpi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "No",
+   "fieldname": "disability",
+   "fieldtype": "Select",
+   "label": "Discapacidad",
+   "options": "Yes\nNo",
+   "sort_options": 1
+  },
+  {
+   "fieldname": "company_tab",
+   "fieldtype": "Tab Break",
+   "label": "Company"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Data",
+   "label": "Company"
+  },
+  {
+   "fieldname": "company_address",
+   "fieldtype": "Data",
+   "label": "Address"
+  },
+  {
+   "fieldname": "company_postcode",
+   "fieldtype": "Data",
+   "label": "Postal Code"
+  },
+  {
+   "fieldname": "postcode",
+   "fieldtype": "Data",
+   "label": "Postal Code"
+  },
+  {
+   "fieldname": "company_city",
+   "fieldtype": "Data",
+   "label": "City"
+  },
+  {
+   "fieldname": "company_cif",
+   "fieldtype": "Data",
+   "label": "CIF"
+  },
+  {
+   "fieldname": "company_niss",
+   "fieldtype": "Data",
+   "label": "NISS"
+  },
+  {
+   "fieldname": "phone_number",
+   "fieldtype": "Data",
+   "label": "Tel\u00e9fono"
+  },
+  {
+   "fieldname": "dni",
+   "fieldtype": "Data",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "DNI",
+   "length": 10,
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "full_name",
+   "fieldtype": "Data",
+   "label": "Full Name"
+  },
+  {
+   "fieldname": "entity_type",
+   "fieldtype": "Select",
+   "label": "Tipo de Empresa",
+   "options": "\nGrupo\nCliente\nProveedor"
+  },
+  {
+   "fieldname": "entity_link",
+   "fieldtype": "Link",
+   "label": "Nombre de la Empresa",
+   "options": "Company"
+  },
+  {
+   "fieldname": "municipio",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Municipio"
+  },
+  {
+   "fieldname": "n\u00ba_seguridad_social",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "N\u00ba Seguridad Social"
+  },
+  {
+   "fieldname": "estudios_finalizados",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Estudios Finalizados"
+  }
+ ],
+ "image_field": "image",
+ "links": [
+  {
+   "group": "Admission",
+   "link_doctype": "Program Enrollment",
+   "link_fieldname": "student"
+  },
+  {
+   "group": "Admission",
+   "link_doctype": "Course Enrollment",
+   "link_fieldname": "student"
+  },
+  {
+   "group": "Student Activity",
+   "link_doctype": "Student Log",
+   "link_fieldname": "student"
+  },
+  {
+   "group": "Assessment",
+   "link_doctype": "Assessment Result",
+   "link_fieldname": "student"
+  },
+  {
+   "group": "Attendance",
+   "link_doctype": "Student Attendance",
+   "link_fieldname": "student"
+  },
+  {
+   "group": "Attendance",
+   "link_doctype": "Student Leave Application",
+   "link_fieldname": "student"
+  },
+  {
+   "group": "Admission",
+   "link_doctype": "Student Applicant",
+   "link_fieldname": "student"
+  }
+ ],
+ "modified": "2025-01-24 14:25:36.406534",
+ "modified_by": "Administrator",
+ "module": "Education",
+ "name": "Student",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "read": 1,
+   "role": "Instructor"
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "import": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Academics User",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Student",
+   "share": 1
+  }
+ ],
+ "show_name_in_global_search": 1,
+ "show_title_field_in_link": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "student_name"
+}

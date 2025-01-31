@@ -1,0 +1,59 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:abreviatura",
+ "creation": "2024-09-08 22:12:46.581793",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "engine": "InnoDB",
+ "field_order": [
+  "area_profesional",
+  "column_break_byns",
+  "abreviatura"
+ ],
+ "fields": [
+  {
+   "fieldname": "area_profesional",
+   "fieldtype": "Data",
+   "label": "\u00c1rea Profesional"
+  },
+  {
+   "fieldname": "column_break_byns",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "abreviatura",
+   "fieldtype": "Data",
+   "label": "Abreviatura",
+   "unique": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-09-09 06:48:06.777616",
+ "modified_by": "Administrator",
+ "module": "Education",
+ "name": "Area Profesional",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "show_preview_popup": 1,
+ "show_title_field_in_link": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "area_profesional"
+}

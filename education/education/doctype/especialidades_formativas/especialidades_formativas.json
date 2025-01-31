@@ -1,0 +1,87 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "field:codigo_especialidad",
+ "creation": "2024-09-09 00:15:37.456323",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_ltc6",
+  "nombre_accion",
+  "familia",
+  "area_profesional",
+  "column_break_kffm",
+  "codigo_especialidad",
+  "nivel",
+  "duracion"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_ltc6",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "nombre_accion",
+   "fieldtype": "Data",
+   "label": "Nombre Acci\u00f3n Formativa"
+  },
+  {
+   "fieldname": "column_break_kffm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "codigo_especialidad",
+   "fieldtype": "Data",
+   "label": "C\u00f3digo Especialidad",
+   "unique": 1
+  },
+  {
+   "fieldname": "nivel",
+   "fieldtype": "Data",
+   "label": "Nivel"
+  },
+  {
+   "fieldname": "familia",
+   "fieldtype": "Link",
+   "label": "Familia Formativa",
+   "options": "Familias Formativas"
+  },
+  {
+   "fieldname": "area_profesional",
+   "fieldtype": "Link",
+   "label": "\u00c1rea Profesional",
+   "options": "Area Profesional"
+  },
+  {
+   "fieldname": "duracion",
+   "fieldtype": "Data",
+   "label": "Duraci\u00f3n Horas"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-09-09 00:20:19.133575",
+ "modified_by": "Administrator",
+ "module": "Education",
+ "name": "Especialidades Formativas",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

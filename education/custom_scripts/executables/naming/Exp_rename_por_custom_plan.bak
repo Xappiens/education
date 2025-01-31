@@ -1,0 +1,129 @@
+import frappe
+import json
+from datetime import datetime
+
+def corregir_incremento_unico_program():
+    titulo_log_actualizacion = "Corrección de Incrementos Únicos en Program"
+    titulo_log_errores = "Errores en Corrección de Incrementos Únicos en Program"
+
+    log_acciones = {"acciones": []}
+    log_errores = {"errores": []}
+
+    try:
+        # Obtener todos los documentos de "Program" con custom_plan no nulo
+        programs = frappe.get_all(
+            "Program",
+            filters={"custom_plan": ["is", "set"]},
+            fields=["name", "custom_plan", "tipo_expediente", "abreviatura_categoria", "year", "numero_incremento"]
+        )
+
+        # Diccionario para rastrear el último incremento por combinación
+        combinaciones_usadas = {}
+
+        for program in programs:
+            doc = frappe.get_doc("Program", program["name"])
+            
+            try:
+                # Registro de acciones para este documento
+                accion = {
+                    "program": doc.name,
+                    "estado_inicial": {
+                        "custom_plan": doc.custom_plan,
+                        "tipo_expediente": doc.tipo_expediente,
+                        "abreviatura_categoria": doc.abreviatura_categoria,
+                        "year": doc.year,
+                        "numero_incremento": doc.numero_incremento
+                    },
+                    "estado_final": {},
+                    "acciones_realizadas": []
+                }
+
+                # Validar y rellenar campos vacíos
+                if not doc.custom_plan:
+                    raise ValueError(f"Faltan datos de custom_plan en {doc.name}")
+
+                # Obtener Plan Formativo y Datos Asociados
+                plan_formativo = frappe.get_doc("Planes Formativos", doc.custom_plan)
+                if not doc.abreviatura_categoria and plan_formativo.abreviatura_categoria:
+                    doc.abreviatura_categoria = plan_formativo.abreviatura_categoria
+                    accion["acciones_realizadas"].append(f"Set abreviatura_categoria: {doc.abreviatura_categoria}")
+
+                if not doc.tipo_expediente and plan_formativo.cat_plan:
+                    plan_data = frappe.get_value(
+                        "Planes",
+                        {"name": plan_formativo.cat_plan},
+                        ["plan_type", "abreviatura"],
+                        as_dict=True
+                    )
+                    if plan_data and plan_data.get("plan_type"):
+                        doc.tipo_expediente = plan_data.get("plan_type")
+                        accion["acciones_realizadas"].append(f"Set tipo_expediente: {doc.tipo_expediente}")
+
+                if not doc.year:
+                    doc.year = datetime.now().year % 100
+                    accion["acciones_realizadas"].append(f"Set year: {doc.year}")
+
+                # Calcular número de incremento único
+                if doc.tipo_expediente and doc.abreviatura_categoria and doc.year:
+                    combinacion = f"{doc.tipo_expediente}-{doc.abreviatura_categoria}-{doc.year}"
+                    
+                    # Obtener el último incremento de esta combinación
+                    if combinacion not in combinaciones_usadas:
+                        # Si es la primera vez, buscar el mayor existente en la base de datos
+                        increment_data = frappe.get_all(
+                            "Program",
+                            filters={
+                                "tipo_expediente": doc.tipo_expediente,
+                                "abreviatura_categoria": doc.abreviatura_categoria,
+                                "year": doc.year
+                            },
+                            fields=["numero_incremento"],
+                            order_by="CAST(numero_incremento AS INT) DESC",
+                            limit_page_length=1
+                        )
+                        last_increment = 0
+                        if increment_data and increment_data[0]["numero_incremento"]:
+                            last_increment = int(increment_data[0]["numero_incremento"])
+                        combinaciones_usadas[combinacion] = last_increment
+                    
+                    # Incrementar para el nuevo documento
+                    combinaciones_usadas[combinacion] += 1
+                    doc.numero_incremento = str(combinaciones_usadas[combinacion]).zfill(2)
+                    accion["acciones_realizadas"].append(f"Set numero_incremento: {doc.numero_incremento}")
+
+                # Guardar cambios
+                doc.save()
+
+                accion["estado_final"] = {
+                    "custom_plan": doc.custom_plan,
+                    "tipo_expediente": doc.tipo_expediente,
+                    "abreviatura_categoria": doc.abreviatura_categoria,
+                    "year": doc.year,
+                    "numero_incremento": doc.numero_incremento
+                }
+
+                log_acciones["acciones"].append(accion)
+
+            except Exception as e:
+                log_errores["errores"].append({
+                    "program": doc.name,
+                    "error": str(e),
+                    "estado_inicial": {
+                        "custom_plan": doc.custom_plan,
+                        "tipo_expediente": doc.tipo_expediente,
+                        "abreviatura_categoria": doc.abreviatura_categoria,
+                        "year": doc.year,
+                        "numero_incremento": doc.numero_incremento
+                    }
+                })
+
+        # Crear logs en el Error Log
+        if log_acciones["acciones"]:
+            frappe.log_error(title=titulo_log_actualizacion, message=json.dumps(log_acciones, indent=4, ensure_ascii=False))
+        if log_errores["errores"]:
+            frappe.log_error(title=titulo_log_errores, message=json.dumps(log_errores, indent=4, ensure_ascii=False))
+
+        
+    except Exception as e:
+        frappe.log_error(title="Error General en Corrección de Program", message=str(e))
+        frappe.throw(f"Error durante la ejecución: {str(e)}")

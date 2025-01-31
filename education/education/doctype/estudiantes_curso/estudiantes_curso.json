@@ -1,0 +1,95 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-09-09 12:30:11.380208",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "dni_student",
+  "estudiante",
+  "student_phone",
+  "student_email",
+  "student_alta",
+  "student_claves",
+  "section_break_roxx",
+  "grupo"
+ ],
+ "fields": [
+  {
+   "columns": 3,
+   "fieldname": "estudiante",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Estudiante",
+   "options": "Student"
+  },
+  {
+   "fieldname": "grupo",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Grupo de estudiante",
+   "options": "Student Group"
+  },
+  {
+   "columns": 2,
+   "fetch_from": "estudiante.student_email_id",
+   "fieldname": "student_email",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Correo Electr\u00f3nico",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fetch_from": "estudiante.dni",
+   "fieldname": "dni_student",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "DNI",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fetch_from": "estudiante.student_mobile_number",
+   "fieldname": "student_phone",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Tel\u00e9fono",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_roxx",
+   "fieldtype": "Section Break"
+  },
+  {
+   "columns": 1,
+   "fieldname": "student_alta",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Alta Moodle",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "student_claves",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Env\u00edo Claves",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-01-24 12:06:46.453070",
+ "modified_by": "Administrator",
+ "module": "Education",
+ "name": "Estudiantes Curso",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

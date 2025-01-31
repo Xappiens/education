@@ -1,0 +1,57 @@
+{
+ "actions": [],
+ "creation": "2015-09-11 15:14:58.501830",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "student",
+  "student_name",
+  "column_break_2",
+  "group_roll_number",
+  "active"
+ ],
+ "fields": [
+  {
+   "fieldname": "student",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Estudiante",
+   "options": "Student",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "active",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Activo"
+  },
+  {
+   "fieldname": "group_roll_number",
+   "fieldtype": "Data",
+   "label": "Group Roll Number"
+  },
+  {
+   "fetch_from": "student.first_name",
+   "fieldname": "student_name",
+   "fieldtype": "Data",
+   "label": "Student Name"
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2024-07-08 10:43:21.188065",
+ "modified_by": "Administrator",
+ "module": "Education",
+ "name": "Student Group Student",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

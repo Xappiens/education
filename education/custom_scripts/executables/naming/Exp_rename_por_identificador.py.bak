@@ -1,0 +1,95 @@
+import frappe
+from datetime import datetime
+
+def procesar_programas_real_set_value():
+    titulo_log = "Actualización Real de Programas (Usando frappe.db.set_value)"
+    log_entries = []  # Lista para guardar los registros de actualización
+    combinaciones_usadas = {}  # Para rastrear los últimos incrementos por combinación
+
+    # Obtener datos de los planes
+    planes_data = frappe.get_all(
+        "Planes",
+        fields=["name", "abreviatura", "plan_type"]
+    )
+
+    # Obtener todos los programas
+    programas = frappe.get_all(
+        "Program",
+        fields=["name", "abreviatura_categoria", "tipo_expediente", "year", "numero_incremento"]
+    )
+
+    for program in programas:
+        program_doc = frappe.get_doc("Program", program["name"])
+
+        try:
+            estado_inicial = {
+                "name": program_doc.name,
+                "abreviatura_categoria": program_doc.abreviatura_categoria,
+                "tipo_expediente": program_doc.tipo_expediente,
+                "year": program_doc.year,
+                "numero_incremento": program_doc.numero_incremento,
+            }
+
+            cambios = {}
+
+            # Buscar abreviatura en el campo `name`
+            if not program_doc.abreviatura_categoria or not program_doc.tipo_expediente:
+                for plan in planes_data:
+                    if plan["abreviatura"] in program_doc.name:
+                        cambios["abreviatura_categoria"] = plan["abreviatura"]
+                        cambios["tipo_expediente"] = plan["plan_type"]
+                        log_entries.append(
+                            f"Actualizado Program: {program_doc.name} - Abreviatura: {plan['abreviatura']}, Tipo: {plan['plan_type']}"
+                        )
+                        break
+
+            # Completar el año si está vacío
+            if not program_doc.year:
+                cambios["year"] = datetime.now().year % 100
+                log_entries.append(f"Set year: {cambios['year']} para Program: {program_doc.name}")
+
+            # Generar numero_incremento si está vacío
+            if cambios.get("tipo_expediente") and cambios.get("abreviatura_categoria") and cambios.get("year") and not program_doc.numero_incremento:
+                combinacion = f"{cambios['tipo_expediente']}-{cambios['abreviatura_categoria']}-{cambios['year']}"
+                
+                if combinacion not in combinaciones_usadas:
+                    # Buscar el mayor incremento existente en la base de datos
+                    increment_data = frappe.get_all(
+                        "Program",
+                        filters={
+                            "tipo_expediente": cambios["tipo_expediente"],
+                            "abreviatura_categoria": cambios["abreviatura_categoria"],
+                            "year": cambios["year"]
+                        },
+                        fields=["numero_incremento"],
+                        order_by="CAST(numero_incremento AS INT) DESC",
+                        limit_page_length=1
+                    )
+                    last_increment = 0
+                    if increment_data and increment_data[0]["numero_incremento"]:
+                        last_increment = int(increment_data[0]["numero_incremento"])
+                    combinaciones_usadas[combinacion] = last_increment
+
+                combinaciones_usadas[combinacion] += 1
+                cambios["numero_incremento"] = str(combinaciones_usadas[combinacion]).zfill(2)
+                log_entries.append(
+                    f"Set numero_incremento: {cambios['numero_incremento']} para Program: {program_doc.name}"
+                )
+
+            # Aplicar los cambios usando frappe.db.set_value
+            if cambios:
+                for campo, valor in cambios.items():
+                    frappe.db.set_value("Program", program_doc.name, campo, valor)
+                frappe.db.commit()
+                log_entries.append(f"Guardado exitoso para Program: {program_doc.name}")
+
+        except Exception as e:
+            log_entries.append(f"Error al procesar Program: {program_doc.name} - {str(e)}")
+
+    # Crear un único registro en el Error Log con todos los resultados
+    if log_entries:
+        frappe.log_error(
+            title=titulo_log,
+            message="\n".join(log_entries)
+        )
+

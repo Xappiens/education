@@ -1,0 +1,85 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-11-08 11:15:46.909594",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "student_link",
+  "course_link",
+  "start_date",
+  "end_date",
+  "comunicaciones",
+  "status_com"
+ ],
+ "fields": [
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Fecha de Inicio"
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "Fecha de Fin"
+  },
+  {
+   "fieldname": "student_link",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Estudiante",
+   "options": "Student"
+  },
+  {
+   "fieldname": "course_link",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Acci\u00f3n Formativa",
+   "options": "Course"
+  },
+  {
+   "fieldname": "comunicaciones",
+   "fieldtype": "Text",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Comunicaciones"
+  },
+  {
+   "default": "No Conectado/No Contesta",
+   "fieldname": "status_com",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Estado Comunicacion",
+   "options": "Conectado\nNo Conectado/Ha Contestado\nNo Conectado/No Contesta\nIncidencia\nDado De Baja",
+   "search_index": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-12-20 08:47:11.410955",
+ "modified_by": "Administrator",
+ "module": "Education",
+ "name": "Estudiantes y Acciones",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

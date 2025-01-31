@@ -1,0 +1,55 @@
+import frappe
+
+def corregir_year_por_custom_convocatoria():
+    titulo_log = "Corrección de Year por custom_convocatoria"
+    log_entries = []  # Lista para guardar las acciones y errores
+
+    # Obtener todos los programas
+    programas = frappe.get_all(
+        "Program",
+        fields=["name", "custom_convocatoria", "year"]
+    )
+
+    for program in programas:
+        try:
+            estado_inicial = {
+                "name": program["name"],
+                "custom_convocatoria": program["custom_convocatoria"],
+                "year": program["year"]
+            }
+
+            estado_final = estado_inicial.copy()
+
+            # Procesar el campo custom_convocatoria
+            if program["custom_convocatoria"]:
+                try:
+                    # Extraer los últimos dos dígitos del campo custom_convocatoria
+                    year = str(program["custom_convocatoria"]).strip()[-2:]
+                    if year.isdigit() and 0 <= int(year) <= 99:
+                        estado_final["year"] = year
+                    else:
+                        estado_final["year"] = None
+                except Exception:
+                    estado_final["year"] = None
+            else:
+                estado_final["year"] = None
+
+            # Aplicar los cambios en la base de datos usando frappe.db.set_value
+            if estado_final["year"] != estado_inicial["year"]:
+                frappe.db.set_value("Program", program["name"], "year", estado_final["year"])
+                frappe.db.commit()
+                log_entries.append(
+                    f"Actualizado Program: {program['name']} - Antes: {estado_inicial} - Después: {estado_final}"
+                )
+
+        except Exception as e:
+            log_entries.append(f"Error al procesar Program: {program['name']} - {str(e)}")
+
+    # Crear un único registro en el Error Log con todos los resultados
+    if log_entries:
+        frappe.log_error(
+            title=titulo_log,
+            message="\n".join(log_entries)
+        )
+
+    frappe.msgprint("Corrección completada. Verifica el Error Log para más detalles.")

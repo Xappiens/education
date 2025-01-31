@@ -1,0 +1,139 @@
+{
+ "actions": [],
+ "creation": "2024-07-16 14:22:34.253132",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "detalles_section",
+  "n_plan_formativo",
+  "plan_formativo",
+  "convocatoria",
+  "estado",
+  "abreviatura_categoria",
+  "numero_incremento",
+  "year",
+  "column_break_adih",
+  "tipo_de_plan",
+  "cat_plan",
+  "empresa",
+  "fecha_limite"
+ ],
+ "fields": [
+  {
+   "fieldname": "plan_formativo",
+   "fieldtype": "Data",
+   "label": "Nombre Plan Formativo"
+  },
+  {
+   "fieldname": "convocatoria",
+   "fieldtype": "Link",
+   "label": "Convocatoria",
+   "options": "Academic Year"
+  },
+  {
+   "fieldname": "estado",
+   "fieldtype": "Select",
+   "label": "Estado",
+   "options": "\nPrevisto\nEn curso\nProgramado\nEjecutado\nRenunciado"
+  },
+  {
+   "fieldname": "column_break_adih",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "cat_plan",
+   "fieldtype": "Link",
+   "label": "Categor\u00eda de Plan",
+   "options": "Planes"
+  },
+  {
+   "fieldname": "empresa",
+   "fieldtype": "Link",
+   "label": "Empresa",
+   "options": "Company"
+  },
+  {
+   "fieldname": "fecha_limite",
+   "fieldtype": "Date",
+   "label": "Fecha L\u00edmite Justificaci\u00f3n"
+  },
+  {
+   "fieldname": "detalles_section",
+   "fieldtype": "Section Break",
+   "label": "Detalles"
+  },
+  {
+   "fieldname": "n_plan_formativo",
+   "fieldtype": "Data",
+   "label": "N\u00ba Plan Formativo",
+   "length": 30
+  },
+  {
+   "fieldname": "tipo_de_plan",
+   "fieldtype": "Select",
+   "label": "Tipo de Plan",
+   "options": "PB\nPV"
+  },
+  {
+   "fieldname": "abreviatura_categoria",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Abreviatura Plan Formativo"
+  },
+  {
+   "fieldname": "year",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "A\u00f1o"
+  },
+  {
+   "fieldname": "numero_incremento",
+   "fieldtype": "Data",
+   "label": "Numero Plan Formativo"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_calendar_and_gantt": 1,
+ "links": [
+  {
+   "group": "Educacion",
+   "link_doctype": "Program",
+   "link_fieldname": "custom_plan"
+  },
+  {
+   "group": "Educacion",
+   "link_doctype": "Course",
+   "link_fieldname": "custom_plan"
+  },
+  {
+   "group": "Educacion",
+   "link_doctype": "Student Group",
+   "link_fieldname": "custom_plan"
+  }
+ ],
+ "modified": "2025-01-22 12:03:07.000317",
+ "modified_by": "Administrator",
+ "module": "Education",
+ "name": "Planes Formativos",
+ "naming_rule": "By script",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "show_title_field_in_link": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "plan_formativo"
+}

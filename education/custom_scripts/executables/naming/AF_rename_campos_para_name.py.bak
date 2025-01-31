@@ -1,0 +1,52 @@
+import frappe
+
+def update_course_from_program():
+    # Inicializar un log
+    log_title = "Course Updates Based on Program Data"
+    log_body = ""
+
+    # Obtener todas las entradas de Course
+    courses = frappe.get_all("Course", fields=["name", "expediente", "plan_type", "abreviatura_categoria", "year"])
+
+    for course in courses:
+        if course.expediente:  # Verificar si tiene expediente relacionado
+            # Buscar el expediente en Program
+            program = frappe.db.get_value(
+                "Program",
+                course.expediente,
+                ["tipo_expediente", "abreviatura_categoria", "year"],
+                as_dict=True
+            )
+
+            if program:
+                # Registrar los datos antes del cambio
+                log_body += f"Course: {course.name}\n"
+                log_body += f"  Before:\n"
+                log_body += f"    plan_type: {course.get('plan_type')}\n"
+                log_body += f"    abreviatura_categoria: {course.get('abreviatura_categoria')}\n"
+                log_body += f"    year: {course.get('year')}\n"
+
+                # Realizar actualizaciones
+                frappe.db.set_value("Course", course.name, "plan_type", program.get("tipo_expediente"), update_modified=False)
+                frappe.db.set_value("Course", course.name, "abreviatura_categoria", program.get("abreviatura_categoria"), update_modified=False)
+                frappe.db.set_value("Course", course.name, "year", program.get("year"), update_modified=False)
+
+                # Registrar los datos después del cambio
+                log_body += f"  Updated To:\n"
+                log_body += f"    plan_type: {program.get('tipo_expediente')}\n"
+                log_body += f"    abreviatura_categoria: {program.get('abreviatura_categoria')}\n"
+                log_body += f"    year: {program.get('year')}\n\n"
+            else:
+                log_body += f"Course: {course.name}\n"
+                log_body += f"  No matching Program found for expediente: {course.expediente}\n\n"
+        else:
+            log_body += f"Course: {course.name}\n"
+            log_body += "  No expediente linked.\n\n"
+
+    # Confirmar los cambios en la base de datos
+    frappe.db.commit()
+
+    # Crear un registro en Error Log
+    if log_body:
+        frappe.log_error(title=log_title, message=log_body)
+

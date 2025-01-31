@@ -1,0 +1,61 @@
+{
+ "actions": [],
+ "autoname": "field:abreviatura",
+ "creation": "2024-09-08 22:08:38.940366",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "engine": "InnoDB",
+ "field_order": [
+  "familia_formativa",
+  "column_break_hfwf",
+  "abreviatura"
+ ],
+ "fields": [
+  {
+   "fieldname": "familia_formativa",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Familia Formativa",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_hfwf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "abreviatura",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Abreviatura",
+   "reqd": 1,
+   "unique": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-10-08 16:04:02.957485",
+ "modified_by": "Administrator",
+ "module": "Education",
+ "name": "Familias Formativas",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "show_title_field_in_link": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "familia_formativa"
+}

@@ -1,0 +1,170 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "autoname": "naming_series:",
+ "creation": "2015-09-09 16:34:04.960369",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "engine": "InnoDB",
+ "field_order": [
+  "course",
+  "column_break_2",
+  "naming_series",
+  "color",
+  "class_schedule_color",
+  "section_break_6",
+  "title",
+  "start_date",
+  "end_date",
+  "theory_start_date",
+  "theory_end_date",
+  "column_break_9",
+  "schedule_date",
+  "from_time",
+  "to_time",
+  "practical_start_date",
+  "practical_end_date"
+ ],
+ "fields": [
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Naming Series",
+   "options": "EDU-CSH-.YYYY.-",
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "course",
+   "fieldtype": "Link",
+   "in_global_search": 1,
+   "label": "Course",
+   "options": "Course",
+   "reqd": 1
+  },
+  {
+   "fieldname": "color",
+   "fieldtype": "Color",
+   "hidden": 1,
+   "label": "Color",
+   "print_hide": 1
+  },
+  {
+   "fieldname": "section_break_6",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "Today",
+   "fieldname": "schedule_date",
+   "fieldtype": "Date",
+   "label": "Schedule Date"
+  },
+  {
+   "fieldname": "column_break_9",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "course.start_date",
+   "fieldname": "from_time",
+   "fieldtype": "Time",
+   "hidden": 1,
+   "in_list_view": 1,
+   "label": "From Time"
+  },
+  {
+   "fieldname": "to_time",
+   "fieldtype": "Time",
+   "in_list_view": 1,
+   "label": "To Time",
+   "reqd": 1
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Title"
+  },
+  {
+   "default": "blue",
+   "fieldname": "class_schedule_color",
+   "fieldtype": "Select",
+   "label": "Class Schedule Color",
+   "options": "blue\ngreen\nred\norange\nyellow\nteal\nviolet\ncyan\namber\npink\npurple",
+   "print_hide": 1
+  },
+  {
+   "fetch_from": "course.start_date",
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Inicio Curso",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "course.end_date",
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "Fin Curso"
+  },
+  {
+   "fetch_from": "course.custom_fecha_inicio_teor\u00eda",
+   "fieldname": "theory_start_date",
+   "fieldtype": "Date",
+   "label": "Inicio teoria"
+  },
+  {
+   "fetch_from": "course.custom_fecha_fin_teor\u00eda",
+   "fieldname": "theory_end_date",
+   "fieldtype": "Date",
+   "label": "Fin teoria"
+  },
+  {
+   "fetch_from": "course.custom_fecha_inicio_practicas",
+   "fieldname": "practical_start_date",
+   "fieldtype": "Date",
+   "label": "Inicio Pr\u00e1cticas"
+  },
+  {
+   "fetch_from": "course.custom_fecha_fin_practicas",
+   "fieldname": "practical_end_date",
+   "fieldtype": "Date",
+   "label": "Fin Pr\u00e1cticas"
+  }
+ ],
+ "links": [],
+ "modified": "2024-07-19 10:41:09.387914",
+ "modified_by": "Administrator",
+ "module": "Education",
+ "name": "Course Schedule",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Academics User",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Student",
+   "share": 1
+  }
+ ],
+ "sort_field": "schedule_date",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "title"
+}

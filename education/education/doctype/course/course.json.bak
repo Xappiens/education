@@ -1,0 +1,247 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "format:{expediente}-{code}-{group}",
+ "creation": "2015-09-07 12:39:55.181893",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "course_name",
+  "code",
+  "group",
+  "department",
+  "hero_image",
+  "expediente",
+  "center",
+  "virtual_class",
+  "state",
+  "hours",
+  "applicant",
+  "column_break_tflc",
+  "description",
+  "start_date",
+  "23_percent",
+  "end_date",
+  "responsible",
+  "section_break_6",
+  "topics",
+  "assessment_tab",
+  "assessment",
+  "default_grading_scale",
+  "assessment_criteria",
+  "city",
+  "connections_tab"
+ ],
+ "fields": [
+  {
+   "fieldname": "course_name",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Course Name"
+  },
+  {
+   "fieldname": "department",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Department",
+   "options": "Department"
+  },
+  {
+   "fieldname": "section_break_6",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "topics",
+   "fieldtype": "Table",
+   "label": "Topics",
+   "options": "Course Topic"
+  },
+  {
+   "fieldname": "hero_image",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "Hero Image"
+  },
+  {
+   "fieldname": "assessment",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "default_grading_scale",
+   "fieldtype": "Link",
+   "label": "Default Grading Scale",
+   "options": "Grading Scale"
+  },
+  {
+   "fieldname": "assessment_criteria",
+   "fieldtype": "Table",
+   "label": "Assessment Criteria",
+   "options": "Course Assessment Criteria"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  },
+  {
+   "default": "0",
+   "fieldname": "column_break_tflc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "assessment_tab",
+   "fieldtype": "Tab Break",
+   "label": "Assessment"
+  },
+  {
+   "fieldname": "connections_tab",
+   "fieldtype": "Tab Break",
+   "label": "Connections",
+   "show_dashboard": 1
+  },
+  {
+   "fieldname": "expediente",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Expediente",
+   "options": "Program"
+  },
+  {
+   "fieldname": "code",
+   "fieldtype": "Data",
+   "label": "Code"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date"
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "End Date"
+  },
+  {
+   "fieldname": "23_percent",
+   "fieldtype": "Date",
+   "label": "25 Percent Day"
+  },
+  {
+   "fieldname": "hours",
+   "fieldtype": "Data",
+   "label": "Hours"
+  },
+  {
+   "fieldname": "state",
+   "fieldtype": "Select",
+   "label": "State",
+   "options": "\nPlanificado\nEn Curso\nAnulado\nPrevisto\nEjecutado\nIncidentado"
+  },
+  {
+   "default": "No",
+   "fieldname": "virtual_class",
+   "fieldtype": "Select",
+   "label": "Virtual Classroom",
+   "options": "No\nYes"
+  },
+  {
+   "fieldname": "responsible",
+   "fieldtype": "Link",
+   "label": "Responsible",
+   "options": "User"
+  },
+  {
+   "fieldname": "city",
+   "fieldtype": "Data",
+   "label": "City"
+  },
+  {
+   "fieldname": "center",
+   "fieldtype": "Link",
+   "label": "Center",
+   "options": "Room"
+  },
+  {
+   "fieldname": "group",
+   "fieldtype": "Data",
+   "label": "Group"
+  },
+  {
+   "fieldname": "applicant",
+   "fieldtype": "Data",
+   "label": "Applicant"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": ".{expediente}.-.{code}.-.{group}"
+  }
+ ],
+ "image_field": "hero_image",
+ "links": [],
+ "modified": "2024-09-12 09:28:26.937576",
+ "modified_by": "Administrator",
+ "module": "Education",
+ "name": "Course",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Academics User",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Instructor",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Administrator",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Education Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "search_fields": "course_name",
+ "show_name_in_global_search": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

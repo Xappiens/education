@@ -1,0 +1,12 @@
+.DS_Store
+*.pyc
+*.egg-info
+*.swp
+tags
+education/docs/current
+dist/
+__pycache__/
+node_modules
+education/public/frontend
+education/www/education.html
+education/www/student-portal.html
